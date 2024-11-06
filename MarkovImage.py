@@ -7,9 +7,10 @@ STEPSPERDECAY = 2000
 
 # Load the image
 # image = cv2.imread("./pikachu-lets-go.jpg")
-image = cv2.imread("./pikachu256.jpg")
+# image = cv2.imread("./Markicon.jpg")
+image = cv2.imread("./markCircle.jpg").astype(float)
 
-image = np.clip(image, 0, 254)
+# image = np.clip(image, 0, 254)
 
 # Start in the middle of the image
 cur_coordiante = [(image.shape[1] // 2, image.shape[0] // 2)]*3
@@ -45,10 +46,10 @@ def getTransitionProbs(x, y, color):
     return probs / total
 
 # Create a list to store the frames
-frames = []
+frames = [cv2.cvtColor(canvas.astype(np.uint8), cv2.COLOR_BGR2RGB)]
 
 while True:
-    canvas = canvas * (1 - DECAYRATE) + np.ones_like(canvas) * 255 * DECAYRATE
+    canvas = canvas * (1 - DECAYRATE) + (np.ones_like(canvas) * 205 + image*50/255) * DECAYRATE
     
     for _ in range(STEPSPERDECAY):
         for color in range(3):
